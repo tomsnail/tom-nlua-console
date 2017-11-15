@@ -4,6 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const merge = require('webpack-merge');
 const webpackBaseConfig = require('./webpack.base.config.js');
 const fs = require('fs');
+const path = require('path');
 
 fs.open('./src/config/env.js', 'w', function(err, fd) {
     const buf = 'export default "development";';
@@ -13,7 +14,8 @@ fs.open('./src/config/env.js', 'w', function(err, fd) {
 module.exports = merge(webpackBaseConfig, {
     devtool: '#source-map',
     output: {
-        publicPath: '/dist/',
+        publicPath: '/public/static/',
+        path: path.join(__dirname, '../public/static'),
         filename: '[name].js',
         chunkFilename: '[name].chunk.js'
     },
@@ -28,7 +30,7 @@ module.exports = merge(webpackBaseConfig, {
         }),
         new HtmlWebpackPlugin({
             filename: '../index.html',
-            template: './src/template/index.ejs',
+            template: './src/template/index_dev.ejs',
             inject: false
         })
     ]
